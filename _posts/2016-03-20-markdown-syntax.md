@@ -2,7 +2,7 @@
 layout: post
 title:  "Tax Syntax"
 date:   2017-05-06
-excerpt: "Just about everything you'll need to style in the theme: headings, paragraphs, blockquotes, tables, code blocks, and more."
+excerpt: "Just about everything you'll need to know about tax. Check the content to see the many tax elements within paragraphs."
 tag:
 - 税金 
 comments: true
