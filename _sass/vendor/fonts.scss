@@ -47,30 +47,6 @@
     font-style: italic;
 }
 
-@font-face{
-    font-family: 'Fira Sans';
-    src: url("../fonts/FiraSans/eot/FiraSans-Medium.eot");
-    src: local("Fira Sans Medium"),
-         url("../fonts/FiraSans/eot/FiraSans-Medium.eot") format("embedded-opentype"),
-         url("../fonts/FiraSans/woff/FiraSans-Medium.woff") format("woff"),
-         url("../fonts/FiraSans/woff2/FiraSans-Medium.woff2") format("woff2"),
-         url("../fonts/FiraSans/ttf/FiraSans-Medium.ttf") format("truetype");
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face{
-    font-family: 'Fira Sans';
-    src: url("../fonts/FiraSans/eot/FiraSans-MediumItalic.eot");
-    src: local("Fira Sans Medium Italic"),
-         url("../fonts/FiraSans/eot/FiraSans-MediumItalic.eot") format("embedded-opentype"),
-         url("../fonts/FiraSans/woff/FiraSans-MediumItalic.woff") format("woff"),
-         url("../fonts/FiraSans/woff2/FiraSans-MediumItalic.woff2") format("woff2"),
-         url("../fonts/FiraSans/ttf/FiraSans-MediumItalic.ttf") format("truetype");
-    font-weight: 500;
-    font-style: italic;
-}
-
 // Inconsolata
 // latin-ext
 @font-face {
