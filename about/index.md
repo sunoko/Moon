@@ -23,7 +23,6 @@ comments: false
 ## Preview
 
 {% capture images %}
-    https://gist.githubusercontent.com/sunoko/b3a53959cee18a98269e4b9587002644/raw/0d1077060f94944e9c8b18cbd9b9cef533317f8c/Who%2520are%2520you%2520.png  
-    https://gist.githubusercontent.com/sunoko/b3a53959cee18a98269e4b9587002644/raw/e66aa70cb0cd934acba8ae0b09456781efaba308/Who%2520are%2520you%2520%2520(1).png
+https://gist.githubusercontent.com/sunoko/b3a53959cee18a98269e4b9587002644/raw/a331f814386a3f207617313fdc98c6d046c178a7/Who%2520are%2520you%2520.png
 {% endcapture %}
 {% include gallery images=images caption="Screenshots of Who are you?" cols=2 %}
