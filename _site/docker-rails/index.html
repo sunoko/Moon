@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8"><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9"><![endif]--><!--[if gt IE 8]><!--><html class="no-js">
+<!--<![endif]--> <head> <meta charset="UTF-8"> <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"> <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> <title>Docker上でRails開発環境を構築する – Who are we?</title> <meta name="description" content="rails newして、ブラウザでアクセスするまで"> <meta name="keywords" content="docker, rails"> <!-- Twitter Cards --> <meta name="twitter:card" content="summary"> <meta name="twitter:image" content="https://sunoko.github.io/whoarewe/assets/img/logo.png"> <meta name="twitter:title" content="Docker上でRails開発環境を構築する"> <meta name="twitter:description" content="Dockerfile ベースイメージはruby:2.4を使用します。 ベースイメージの更新を行います。 ENTRYKITを使用します。ENTRYKITとは、"> <meta name="twitter:site" content="@username"> <meta name="twitter:creator" content="@username"> <!-- Open Graph --> <meta property="og:locale" content="ja_JP"> <meta property="og:type" content="article"> <meta property="og:title" content="Docker上でRails開発環境を構築する"> <meta property="og:description" content="Dockerfile ベースイメージはruby:2.4を使用します。 ベースイメージの更新を行います。 ENTRYKITを使用します。ENTRYKITとは、"> <meta property="og:url" content="https://sunoko.github.io/whoarewe/docker-rails/"> <meta property="og:site_name" content="Who are we?"> <meta property="og:image" content="https://sunoko.github.io/whoarewe/assets/img/logo.png"> <link rel="canonical" href="https://sunoko.github.io/whoarewe/docker-rails/"> <link href="https://sunoko.github.io/whoarewe/feed.xml" type="application/atom+xml" rel="alternate" title="Who are we? Feed"> <!-- Handheld --> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- CSS --> <link rel="stylesheet" href="https://sunoko.github.io/whoarewe/assets/css/main.css"> <!-- JS --> <script src="https://sunoko.github.io/whoarewe/assets/js/modernizr-3.3.1.custom.min.js"></script> <!-- Favicons --> <link rel="shortcut icon" type="image/png" href="https://sunoko.github.io/whoarewe/favicon.png"> <link rel="shortcut icon" href="https://sunoko.github.io/whoarewe/favicon.ico"> <!-- Background Image --> <style type="text/css">body {background-image:url(https://sunoko.github.io/whoarewe/assets/img/back.jpg); background-repeat: no-repeat; background-size: cover; }</style> <!-- Post Feature Image --> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-98711363-1', 'auto'); ga('send', 'pageview'); </script> </head> <body> <nav id="dl-menu" class="dl-menuwrapper" role="navigation"> <button class="dl-trigger">Open Menu</button> <ul class="dl-menu"> <li><a href="https://sunoko.github.io/whoarewe/">Home</a></li> <li> <a href="#">About</a> <ul class="dl-submenu"> <li> <img src="https://sunoko.github.io/whoarewe/assets/img/logo.png" alt="Who are we? photo" class="author-photo"> <h4>Who are we?</h4> <p>Who are we?</p> </li> <li><a href="https://sunoko.github.io/whoarewe/about/"><span class="btn btn-inverse">Learn More</span></a></li> <li> <a href="http://twitter.com/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a> </li> <li> <a href="http://facebook.com/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a> </li> <li> <a href="http://github.com/sunoko" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-github"></i> Github</a> </li> </ul>
+<!-- /.dl-submenu --> </li> <li> <a href="#">Posts</a> <ul class="dl-submenu"> <li><a href="https://sunoko.github.io/whoarewe/posts/">All Posts</a></li> <li><a href="https://sunoko.github.io/whoarewe/tags/">All Tags</a></li> </ul> </li> <li><a href="https://sunoko.github.io/whoarewe/projects/">Projects</a></li> </ul>
+<!-- /.dl-menu --> </nav><!-- /.dl-menuwrapper --> <!-- Header --> <header class="header" role="banner"> <div class="wrapper animated fadeIn"> <div class="content"> <div class="post-title "> <h1>Docker上でRails開発環境を構築する</h1> <h4>17 May 2017</h4> <p class="reading-time"> <i class="fa fa-clock-o"></i> Reading time ~1 minute </p>
+<!-- /.entry-reading-time --> <a class="btn zoombtn" href="https://sunoko.github.io/whoarewe/posts/"> <i class="fa fa-chevron-left"></i> </a> </div> <h2 id="dockerfile">Dockerfile</h2> <ul> <li>ベースイメージはruby:2.4を使用します。</li> <li>ベースイメージの更新を行います。</li> <li>ENTRYKITを使用します。ENTRYKITとは、</li> </ul> <div class="highlighter-rouge"><pre class="highlight"><code>FROM ruby:2.4
+RUN apt-get update -qq &amp;&amp; \
+    apt-get install -y build-essential libpq-dev nodejs
+RUN mkdir /app
+WORKDIR /app
+ADD Gemfile /app/Gemfile
+ADD Gemfile.lock /app/Gemfile.lock
+ADD . /app
+
+RUN bundle config build.nokogiri --use-system-libraries
+EXPOSE 5000
+
+ENV ENTRYKIT_VERSION 0.4.0
+RUN wget https://github.com/progrium/entrykit/releases/download/v${ENTRYKIT_VERSION}/entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  &amp;&amp; tar -xvzf entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  &amp;&amp; rm entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  &amp;&amp; mv entrykit /bin/entrykit \
+  &amp;&amp; chmod +x /bin/entrykit \
+  &amp;&amp; entrykit --symlink
+ENTRYPOINT [ \
+  "prehook", "ruby -v", "--", \
+  "prehook", "bundle install -j3 --quiet", "--"]
+</code></pre></div> <h2 id="docker-composeyml">docker-compose.yml</h2> <ul> <li>app, spring, db, dataコンテナー4つを作成します。</li> <li>appはrailsが実行されるコンテナーです。</li> <li>springはなくてもいいです。rails開発を高速化したい場合は使用しましょう。</li> <li>dbはpostgresが実行されるコンテナーです。appコンテナーから参照されます。</li> <li>dataはデータを格納するコンテナーです。app, dbコンテナーから参照されます。app, dbコンテナーにデータを保存する場合は不要です。</li> <li>
+<code class="highlighter-rouge">db:/var/lib/postgresql/data</code>はpostgresのデータを格納します。</li> <li>
+<code class="highlighter-rouge">bundle:/usr/local/bundle</code>は<code class="highlighter-rouge">bundle install</code>でインストールされるデータを格納します。</li> </ul> <div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="s">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">2'</span>
+<span class="s">services</span><span class="pi">:</span>
+  <span class="s">app</span><span class="pi">:</span> <span class="nl">&amp;app_base</span>
+    <span class="s">build</span><span class="pi">:</span>
+      <span class="s">context</span><span class="pi">:</span> <span class="s">.</span>
+    <span class="s">command</span><span class="pi">:</span> <span class="s2">"</span><span class="s">bundle</span><span class="nv"> </span><span class="s">exec</span><span class="nv"> </span><span class="s">rails</span><span class="nv"> </span><span class="s">s</span><span class="nv"> </span><span class="s">-p</span><span class="nv"> </span><span class="s">3000</span><span class="nv"> </span><span class="s">-b</span><span class="nv"> </span><span class="s">'0.0.0.0'"</span>
+    <span class="s">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">DATABASE_HOST=db"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">DATABASE_PORT=5432"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">DATABASE_USER=postgres"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">DATABASE_PASSWORD=mysecretpassword1234"</span>
+    <span class="s">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">.:/app"</span>
+    <span class="s">volumes_from</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">data</span>
+    <span class="s">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">3000:3000"</span>
+    <span class="s">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db</span>
+    <span class="s">tty</span><span class="pi">:</span> <span class="s">true</span>
+    <span class="s">stdin_open</span><span class="pi">:</span> <span class="s">true</span>
+
+  <span class="s">spring</span><span class="pi">:</span>
+    <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*app_base</span>
+    <span class="s">command</span><span class="pi">:</span> <span class="s2">"</span><span class="s">bundle</span><span class="nv"> </span><span class="s">exec</span><span class="nv"> </span><span class="s">spring</span><span class="nv"> </span><span class="s">server"</span>
+    <span class="s">ports</span><span class="pi">:</span> <span class="pi">[]</span>
+    <span class="s">tty</span><span class="pi">:</span> <span class="s">false</span>
+    <span class="s">stdin_open</span><span class="pi">:</span> <span class="s">false</span>
+
+  <span class="s">db</span><span class="pi">:</span>
+    <span class="s">image</span><span class="pi">:</span> <span class="s2">"</span><span class="s">postgres:9.5"</span>
+    <span class="s">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">POSTGRES_USER=postgres"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">POSTGRES_PASSWORD=mysecretpassword1234"</span>
+    <span class="s">volumes_from</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">data</span>
+
+  <span class="s">data</span><span class="pi">:</span>
+    <span class="s">image</span><span class="pi">:</span> <span class="s2">"</span><span class="s">busybox"</span>
+    <span class="s">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">db:/var/lib/postgresql/data"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">bundle:/usr/local/bundle"</span>
+
+<span class="s">volumes</span><span class="pi">:</span>
+  <span class="s">db</span><span class="pi">:</span>
+    <span class="s">driver</span><span class="pi">:</span> <span class="s">local</span>
+  <span class="s">bundle</span><span class="pi">:</span>
+    <span class="s">driver</span><span class="pi">:</span> <span class="s">local</span> 
+</code></pre></div> <h2 id="gemfile">Gemfile</h2> <p>中身はこれだけ書いておきましょう。</p> <div class="language-rb highlighter-rouge"><pre class="highlight"><code><span class="n">source</span> <span class="s1">'https://rubygems.org'</span>
+<span class="n">gem</span> <span class="s1">'rails'</span><span class="p">,</span> <span class="s1">'~&gt; 5.0.1'</span>
+</code></pre></div> <h2 id="gemfilelock">Gemfile.lock</h2> <p>中身は何も書かなくていいです。</p> <h2 id="使い方">使い方</h2> <p>Dockerfile, docker-compose.yml, Gemfile, Gemfile.lockを同じ階層に準備して、その階層に移動したら下記実行しましょう。</p> <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># 1. Railsプロジェクト作成, イメージ作成</span>
+docker-compose run --rm app rails new . --force --database<span class="o">=</span>postgresql --skip-bundle
+
+<span class="c"># 2. Gemfile.lock更新</span>
+docker-compose run --rm app bundle install
+
+<span class="c"># 3. Gemfileの更新結果をイメージに反映</span>
+docker-compose build
+
+<span class="c"># DB設定</span>
+<span class="c"># 4. config/docker-compose.yml更新</span>
+
+<span class="c"># 5. DB作成</span>
+docker-compose run --rm app rails db:create
+
+<span class="c"># 6. 起動</span>
+docker-compose up
+</code></pre></div> <h2 id="configdatabaseyml">config/database.yml</h2> <p>DB設定の時にこちらをコピーします。</p> <div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="s">default</span><span class="pi">:</span> <span class="nl">&amp;default</span>
+  <span class="s">adapter</span><span class="pi">:</span> <span class="s">postgresql</span>
+  <span class="s">encoding</span><span class="pi">:</span> <span class="s">unicode</span>
+  <span class="s">pool</span><span class="pi">:</span> <span class="s">&lt;%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %&gt;</span>
+  <span class="s">username</span><span class="pi">:</span> <span class="s">&lt;%= ENV.fetch('DATABASE_USER') { 'root' } %&gt;</span>
+  <span class="s">password</span><span class="pi">:</span> <span class="s">&lt;%= ENV.fetch('DATABASE_PASSWORD') { 'password' } %&gt;</span>
+  <span class="s">host</span><span class="pi">:</span> <span class="s">&lt;%= ENV.fetch('DATABASE_HOST') { 'localhost' } %&gt;</span>
+  <span class="s">port</span><span class="pi">:</span> <span class="s">&lt;%= ENV.fetch('DATABASE_PORT') { 5432 } %&gt;</span>
+
+<span class="s">development</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="s">database</span><span class="pi">:</span> <span class="s">app_development</span>
+
+<span class="s">test</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="s">database</span><span class="pi">:</span> <span class="s">app_test</span>
+
+<span class="s">production</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="s">database</span><span class="pi">:</span> <span class="s">app_production</span>
+</code></pre></div> <div class="entry-meta"> <br> <hr> <span class="entry-tags"><a href="https://sunoko.github.io/whoarewe/tags/#docker" title="Pages tagged docker" class="tag"><span class="term">docker</span></a><a href="https://sunoko.github.io/whoarewe/tags/#rails" title="Pages tagged rails" class="tag"><span class="term">rails</span></a></span> <span class="social-share"> <a href="https://www.facebook.com/sharer/sharer.php?u=https://sunoko.github.io/whoarewe/docker-rails/" title="Share on Facebook" class="tag"> <span class="term"><i class="fa fa-facebook-square"></i> Share</span> </a> <a href="https://twitter.com/intent/tweet?text=https://sunoko.github.io/whoarewe/docker-rails/" title="Share on Twitter" class="tag"> <span class="term"><i class="fa fa-twitter-square"></i> Tweet</span> </a> <a href="https://plus.google.com/share?url=https://sunoko.github.io/whoarewe/docker-rails/" title="Share on Google+" class="tag"> <span class="term"><i class="fa fa-google-plus-square"></i> +1</span> </a> </span> <div style="clear:both"></div> </div> </div> </div> </header> <!-- JS --> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery-1.12.0.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.dlmenu.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.goup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.magnific-popup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.fitvid.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/scripts.js"></script> <!-- MathJax --> <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> </body> </html>

@@ -1,88 +1,870 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://sunoko.github.io/whoarewe/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="https://sunoko.github.io/whoarewe/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sunoko.github.io/whoarewe/" rel="alternate" type="text/html" /><updated>2017-05-09T00:46:09+09:00</updated><id>https://sunoko.github.io/whoarewe/</id><title type="html">Who are we?</title><subtitle>Who are we?</subtitle><entry><title type="html">Tax Syntax</title><link href="https://sunoko.github.io/whoarewe/markdown-syntax/" rel="alternate" type="text/html" title="Tax Syntax" /><published>2017-05-06T00:00:00+09:00</published><updated>2017-05-06T00:00:00+09:00</updated><id>https://sunoko.github.io/whoarewe/markdown-syntax</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/markdown-syntax/">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="https://sunoko.github.io/whoarewe/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="https://sunoko.github.io/whoarewe/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sunoko.github.io/whoarewe/" rel="alternate" type="text/html" /><updated>2017-05-18T20:23:25+09:00</updated><id>https://sunoko.github.io/whoarewe/</id><title type="html">Who are we?</title><subtitle>Who are we?</subtitle><entry><title type="html">PowershellでHyperVのVM作成自動化</title><link href="https://sunoko.github.io/whoarewe/powershell-hyperv/" rel="alternate" type="text/html" title="PowershellでHyperVのVM作成自動化" /><published>2017-05-18T06:27:26+09:00</published><updated>2017-05-18T06:27:26+09:00</updated><id>https://sunoko.github.io/whoarewe/powershell-hyperv</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/powershell-hyperv/">&lt;h2 id=&quot;hyper-vのvm作成自動化とテスト&quot;&gt;Hyper-VのVM作成自動化とテスト&lt;/h2&gt;
 
-&lt;p&gt;Below is just about everything you’ll need to know about tax. Check the content to see the many tax elements within paragraphs.&lt;/p&gt;
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;New-HyperVVirtualMachine &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;&amp;lt;#
+.SYNOPSIS
+Create virtual machine on Hyper-V using template vhdx file.
 
-&lt;p class=&quot;image-right&quot;&gt;&lt;img src=&quot;https://www.drwallet.jp/navi/wp-content/uploads/2015/11/151124I-02.jpg&quot; alt=&quot;Smithsonian Image&quot; /&gt;&lt;/p&gt;
+.EXAMPLE
+New-HyperVVirtualMachine -VMNames $VMNames -VHDXSourcePath $VHDXSourcePath
 
-&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+.NOTES
+Should be prepared template vhdx file.
+Should run local administrator user.
+#&amp;gt;&lt;/span&gt;    
+    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;CmdletBinding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()]&lt;/span&gt;     
+    &lt;span class=&quot;k&quot;&gt;Param&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ValueFromPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;,Mandatory&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMNames&lt;/span&gt;,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Get-VMHost&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.VirtualHardDiskPath,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VHDXSourcePath&lt;/span&gt;,        
+        
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ProcessorCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 2,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Generation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Int64]&lt;span class=&quot;nv&quot;&gt;$ServerMaximumMemoryMB&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 4096MB,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Int64]&lt;span class=&quot;nv&quot;&gt;$ServerMinimumMemoryMB&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 512MB,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Int64]&lt;span class=&quot;nv&quot;&gt;$MemoryStartupBytes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 512MB,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Int64]&lt;span class=&quot;nv&quot;&gt;$VHDXDiskSizeBytes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 127GB,        
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$SwitchType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Internal&quot;&lt;/span&gt;,
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$SwitchName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;InternalSwitch&quot;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;Begin&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        Import-Module Hyper-V
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;!&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Test-Path&lt;/span&gt; -Path &lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;New-Item&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt; -ItemType Directory | &lt;span class=&quot;nb&quot;&gt;Out-Null&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;Get-VMSwitch&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.SwitchType -notcontains &lt;span class=&quot;nv&quot;&gt;$SwitchType&lt;/span&gt; -and &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Get-VMSwitch&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.Name -notcontains &lt;span class=&quot;nv&quot;&gt;$SwitchName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            New-VMSwitch -Name &lt;span class=&quot;nv&quot;&gt;$SwitchName&lt;/span&gt; -SwitchType &lt;span class=&quot;nv&quot;&gt;$SwitchType&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;Out-Null&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;nv&quot;&gt;$VMSettings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;ProcessorCount&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ProcessorCount&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;MemoryMinimumBytes&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ServerMinimumMemoryMB&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;MemoryMaximumBytes&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ServerMaximumMemoryMB&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;DynamicMemory&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;Passthru&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;Process&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$VMNames&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;nv&quot;&gt;$VHDXPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;New-VHD -Path &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;).vhdx&quot;&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+                                     -ParentPath &lt;span class=&quot;nv&quot;&gt;$VHDXSourcePath&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+                                     -SizeBytes &lt;span class=&quot;nv&quot;&gt;$VHDXDiskSizeBytes&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+                                     -ErrorAction Stop&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.Path
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;nb&quot;&gt;Write-Verbose&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;1
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;nv&quot;&gt;$VMParams&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&quot;Name&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&quot;Generation&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$Generation&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&quot;MemoryStartupBytes&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$MemoryStartupBytes&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&quot;SwitchName&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$SwitchName&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&quot;VHDPath&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$VHDXPath&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;Write-Verbose&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Creating VM : &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+            New-VM @VMParams | &lt;span class=&quot;nb&quot;&gt;Set&lt;/span&gt;-VM @VMSettings | &lt;span class=&quot;nb&quot;&gt;Start&lt;/span&gt;-VM
+            &lt;span class=&quot;nb&quot;&gt;Write-Verbose&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; created successfully&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;Write-Verbose&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;VM created successfully&quot;&lt;/span&gt;        
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;End&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;Remove-HyperVVirtualMachine &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;&amp;lt;#
+.SYNOPSIS
+Delete virtual machine and vhdx file.
+
+.EXAMPLE
+Remove-HyperVVirtualMachine -VMNames $VMNames
+
+.NOTES
+Should run local administrator user.
+#&amp;gt;&lt;/span&gt;       
+    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;CmdletBinding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()]&lt;/span&gt;     
+    &lt;span class=&quot;k&quot;&gt;Param&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ValueFromPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;,Mandatory&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMNames&lt;/span&gt;,  
+
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Parameter&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Mandatory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Get-VMHost&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.VirtualHardDiskPath        
+    &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    Import-Module Hyper-V
+    &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$VMNames&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        Stop-VM &lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt; -Force -ErrorAction SilentlyContinue
+        Remove-VM &lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt; -Force -ErrorAction SilentlyContinue
+        &lt;span class=&quot;nb&quot;&gt;Remove-Item&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Join-Path&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.vhdx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; -ErrorAction SilentlyContinue
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$parent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Split-Path&lt;/span&gt; -Parent &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Split-Path&lt;/span&gt; -Parent &lt;span class=&quot;nv&quot;&gt;$MyInvocation&lt;/span&gt;.MyCommand.Path&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$sut&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Split-Path&lt;/span&gt; -Leaf &lt;span class=&quot;nv&quot;&gt;$MyInvocation&lt;/span&gt;.MyCommand.Path&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; -replace &lt;span class=&quot;s1&quot;&gt;'\.Tests\.'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;
+. &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$parent&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;sut&quot;&lt;/span&gt;
+. &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$parent&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\R&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;emove-HyperVVirtualMachine.ps1&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$TestConfig&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Get-Content&lt;/span&gt; .&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;estData.json | ConvertFrom-Json
+&lt;span class=&quot;nv&quot;&gt;$PSDefaultParameterValues&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;New-HyperVVirtualMachine:VMNames&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$TestConfig&lt;/span&gt;.VMNames.VMName
+    &lt;span class=&quot;s2&quot;&gt;&quot;New-HyperVVirtualMachine:VHDXSourcePath&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$TestConfig&lt;/span&gt;.VHDXSourcePath
+    &lt;span class=&quot;s2&quot;&gt;&quot;Remove-HyperVVirtualMachine:VMNames&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$TestConfig&lt;/span&gt;.VMNames.VMName
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+Describe &lt;span class=&quot;s2&quot;&gt;&quot;New-HyperVVirtualMachine&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    Context &lt;span class=&quot;s2&quot;&gt;&quot;Run function nomally&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        It &lt;span class=&quot;s2&quot;&gt;&quot;shold return null for creating VMs successfully&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            Remove-HyperVVirtualMachine
+            New-HyperVVirtualMachine | Should BeNullOrEmpty
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+           It &lt;span class=&quot;s2&quot;&gt;&quot;Throw&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;error message&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; | Should &lt;span class=&quot;k&quot;&gt;Throw&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;error message&quot;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        It &lt;span class=&quot;s2&quot;&gt;&quot;should get specific vhdx file&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Get-VMHost&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.VirtualHardDiskPath
+            &lt;span class=&quot;nv&quot;&gt;$VHDXFiles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Get-ChildItem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$VHDXDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.Name
+            &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$TestConfig&lt;/span&gt;.VMNames.VMName&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Regex]::Match&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VHDXFiles&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.Success | Should Be &lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;   
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        It &lt;span class=&quot;s2&quot;&gt;&quot;should get specific virtual machine&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$TestConfig&lt;/span&gt;.VMNames.VMName&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;            
+                &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Get-VM&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.Name -contains &lt;span class=&quot;nv&quot;&gt;$VMName&lt;/span&gt; | Should Be &lt;span class=&quot;nv&quot;&gt;$true&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        It &lt;span class=&quot;s2&quot;&gt;&quot;should return exception value&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            New-HyperVVirtualMachine | Should Be 1
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        Remove-HyperVVirtualMachine
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;VHDXSourcePath&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;C:\\somewhere.vhdx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;VMNames&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;VMName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;VM01&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;VMName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;VM02&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;vmをpowersehllから操作するための準備&quot;&gt;VMをPowersehllから操作するための準備&lt;/h2&gt;
+&lt;h4 id=&quot;3-winrm起動&quot;&gt;3. WinRM起動&lt;/h4&gt;
+&lt;p&gt;接続されるPCで実行&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Enable-PSRemoting -Force
+Enter-PSSession -ComputerName localhost
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h4 id=&quot;4-firewall無効化&quot;&gt;4. Firewall無効化&lt;/h4&gt;
+&lt;p&gt;接続されるPCで実行&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Get-NetFirewallProfile | &lt;span class=&quot;nb&quot;&gt;Set&lt;/span&gt;-NetFirewallProfile -Enabled &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h4 id=&quot;5-trustedhosts設定&quot;&gt;5. TrustedHosts設定&lt;/h4&gt;
+&lt;p&gt;接続するPCで実行&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;Set-Item &lt;/span&gt;WSMan:&lt;span class=&quot;se&quot;&gt;\l&lt;/span&gt;ocalhost&lt;span class=&quot;se&quot;&gt;\C&lt;/span&gt;lient&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;rustedHosts -Value &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; -Force
+&lt;span class=&quot;nb&quot;&gt;Get-Item &lt;/span&gt;WSMan:&lt;span class=&quot;se&quot;&gt;\l&lt;/span&gt;ocalhost&lt;span class=&quot;se&quot;&gt;\C&lt;/span&gt;lient&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;rustedHosts
+&lt;span class=&quot;c1&quot;&gt;# Type            Name                           SourceOfValue   Value&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# ----            ----                           -------------   -----&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# System.String   TrustedHosts                                   *&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;6-powershellからvmに接続&quot;&gt;6. PowershellからVMに接続&lt;/h4&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$cred&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Get-Credential
+&lt;/span&gt;Enter-PSSession -ComputerName &lt;span class=&quot;s2&quot;&gt;&quot;IP or HostName&quot;&lt;/span&gt; -Credential &lt;span class=&quot;nv&quot;&gt;$cred&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="powershell" /><summary type="html">Hyper-VのVM作成自動化とテスト</summary></entry><entry><title type="html">Powershellでユニットテスト</title><link href="https://sunoko.github.io/whoarewe/powershell-pester/" rel="alternate" type="text/html" title="Powershellでユニットテスト" /><published>2017-05-18T06:26:57+09:00</published><updated>2017-05-18T06:26:57+09:00</updated><id>https://sunoko.github.io/whoarewe/powershell-pester</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/powershell-pester/">&lt;h2 id=&quot;mockの使い方と使用例&quot;&gt;Mockの使い方と使用例&lt;/h2&gt;
 &lt;ul&gt;
-  &lt;li&gt;所得税&lt;/li&gt;
-  &lt;li&gt;住民税&lt;/li&gt;
-  &lt;li&gt;国民健康保険税&lt;/li&gt;
-  &lt;li&gt;国民年金税&lt;/li&gt;
-  &lt;li&gt;個人事業税&lt;/li&gt;
-  &lt;li&gt;消費税&lt;/li&gt;
+  &lt;li&gt;Out-Hostをテストしようとすると、return valueは空のためテストが難しい&lt;/li&gt;
+  &lt;li&gt;同じくGet-Dateのように変動的な結果のもののテストも難しい&lt;/li&gt;
+  &lt;li&gt;そんな時にMockを使用する&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;Lorem ipsum dolor sit amet, test link adipiscing elit. Nullam dignissim convallis est. Quisque aliquam.&lt;/p&gt;
+&lt;h3 id=&quot;sample-code&quot;&gt;Sample Code&lt;/h3&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord &lt;span class=&quot;o&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;nv&quot;&gt;$date_01&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Get-Date
+	&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt; -eq &lt;span class=&quot;s2&quot;&gt;&quot;TEST_01&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$date_02&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;s2&quot;&gt;&quot;TEST_&quot;&lt;/span&gt; + &lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;Out-Host&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Describe &lt;span class=&quot;s1&quot;&gt;'Write-TimeAndWord'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    Context &lt;span class=&quot;s2&quot;&gt;&quot;First Test&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;TEST_01&quot;&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Get-DateをMockで上書きする&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Get-Dateを実行すると結果が&quot;2017/03/31 06:00:00&quot;に固定できる&lt;/span&gt;
+        Mock &lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;2017/03/31 06:00:00&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Out-HostをMockで上書きする&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# &quot;-parameterFilter&quot;でパラメーターが指定したもの(&quot;2017/03/31 06:00:00TEST&quot;)かチェックする&lt;/span&gt;
+        Mock &lt;span class=&quot;nb&quot;&gt;Out-Host&lt;/span&gt; -verifiable -parameterFilter &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_&lt;/span&gt; -eq &lt;span class=&quot;s2&quot;&gt;&quot;TEST_TEST_01&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        It &lt;span class=&quot;s1&quot;&gt;'return value'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;# テストしたい関数を実行する&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord &lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        It &lt;span class=&quot;s2&quot;&gt;&quot;Assert-VerifiableMocks&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;# &quot;-verifiable&quot;があるMockが呼び出されたかチェックする&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;# 関数内でOut-Hostが呼び出されていれば問題なし&lt;/span&gt;
+            Assert-VerifiableMocks
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        It &lt;span class=&quot;s2&quot;&gt;&quot;Assert-MockCalled&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;# 関数内でMockのGet-Dateが2回呼び出されたかチェックする&lt;/span&gt;
+            Assert-MockCalled -CommandName &lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt; -Times 2
+            &lt;span class=&quot;c1&quot;&gt;# 関数内でMockのOut-Hostが1回呼び出されたかチェックする&lt;/span&gt;
+            Assert-MockCalled -CommandName &lt;span class=&quot;nb&quot;&gt;Out-Host&lt;/span&gt; -Times 1
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    Context &lt;span class=&quot;s2&quot;&gt;&quot;Second Test&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;TEST_02&quot;&lt;/span&gt;
+        Mock &lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;2017/03/31 06:00:00&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        Mock &lt;span class=&quot;nb&quot;&gt;Out-Host&lt;/span&gt; -parameterFilter &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_&lt;/span&gt; -eq &lt;span class=&quot;s2&quot;&gt;&quot;TEST_TEST_02&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        It &lt;span class=&quot;s2&quot;&gt;&quot;All Test&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord &lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt;   
+            Assert-VerifiableMocks         
+            Assert-MockCalled -CommandName &lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt; -Times 1
+            Assert-MockCalled -CommandName &lt;span class=&quot;nb&quot;&gt;Out-Host&lt;/span&gt; -Times 1
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;実行方法&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Invoke-Pester .&lt;span class=&quot;se&quot;&gt;\W&lt;/span&gt;rite-TimeAndWord.Tests.ps1 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;sample-codeのまとめ&quot;&gt;Sample Codeのまとめ&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;引数を固定できる
+→ &lt;code class=&quot;highlighter-rouge&quot;&gt;-parameterFilter&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;コマンドレットや関数を上書きすることができる
+→ &lt;code class=&quot;highlighter-rouge&quot;&gt;Mock Get-Date { return [String] &quot;2017/03/31 06:00:00&quot;}&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;再現性あるテスト
+→ &lt;code class=&quot;highlighter-rouge&quot;&gt;Get-Date&lt;/code&gt;の結果を固定、&lt;code class=&quot;highlighter-rouge&quot;&gt;Out-Host&lt;/code&gt;のパラメーターを固定&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;検証が難しい場合でも呼びだしと出力の検証ができる
+→ &lt;code class=&quot;highlighter-rouge&quot;&gt;Assert-VerifiableMocks&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;Assert-MockCalled -CommandName Out-Host -Times 1&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;codecoverageの使い方と使用例&quot;&gt;CodeCoverageの使い方と使用例&lt;/h2&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Invoke-Pester .&lt;span class=&quot;se&quot;&gt;\W&lt;/span&gt;rite-TimeAndWord.Tests.ps1 -CodeCoverage .&lt;span class=&quot;se&quot;&gt;\W&lt;/span&gt;rite-TimeAndWord.ps1
+
+Describing &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord
+   Context First Test
+    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;+] &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;value 69ms
+    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;+] Assert-VerifiableMocks 15ms
+    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;+] Assert-MockCalled 20ms
+   Context Second Test
+    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;+] All Test 56ms
+Tests completed &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;162ms
+Passed: 4 Failed: 0 Skipped: 0 Pending: 0 Inconclusiv
+
+Code coverage report:
+Covered 0.00% of 5 analyzed commands &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;1 file.
+
+Missed commands:
+
+File                  &lt;span class=&quot;k&quot;&gt;Function          &lt;/span&gt;Line Command
+----                  --------          ---- -------
+&lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord.ps1 &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord    2 &lt;span class=&quot;nv&quot;&gt;$date_01&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord.ps1 &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord    3 &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$word&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord.ps1 &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord    3 &lt;span class=&quot;nv&quot;&gt;$date_02&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord.ps1 &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord    4 &lt;span class=&quot;s2&quot;&gt;&quot;TEST_&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord.ps1 &lt;span class=&quot;nb&quot;&gt;Write&lt;/span&gt;-TimeAndWord    4 &lt;span class=&quot;nb&quot;&gt;Out-Host&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;変数のCodeCoverageをどうやってCoverするのか不明です。どなたかご教授いただけないでしょうか。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;test環境初期化スクリプト&quot;&gt;Test環境初期化スクリプト&lt;/h2&gt;
+&lt;p&gt;例：SharePointモジュールUnitテスト
+Powershell Module Folder/&lt;/p&gt;
+
+&lt;p&gt;┣ Scripts/
+┃    ┗script_01.ps1
+┃    ┗script_02.ps1
+┃    ┗script_03.ps1
+┃    ┣Tests/
+┃        ┗test_01.Tests.ps1
+┃        ┗test_02.Tests.ps1
+┃        ┗test_03.Tests.ps1
+┃        ┗TestInitialize.ps1
+┃        ┗TestInitialize.json&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$parent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Split-Path&lt;/span&gt; -Parent &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Split-Path&lt;/span&gt; -Parent &lt;span class=&quot;nv&quot;&gt;$MyInvocation&lt;/span&gt;.MyCommand.Path&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$scripts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Get-ChildItem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$parent&lt;/span&gt; -Filter &lt;span class=&quot;s2&quot;&gt;&quot;*.ps1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.FullName
+&lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$script&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$scripts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;Invoke-Expression&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Get-Content&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$script&lt;/span&gt; -Raw&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$Script&lt;/span&gt;:TestConfig &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Get-Content&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PSScriptRoot&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;estConfiguration.json&quot;&lt;/span&gt; | ConvertFrom-Json
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;SiteUrl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;SharePoint Site URL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;LoginUserName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;username&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;LoginPassword&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;ListName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Test-Tmp-List&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;SiteName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Test-Tmp-Site&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;testData&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;DisplayName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Region&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Region&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Japan&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;DisplayName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Priority&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Priority&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Choice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;High&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;DisplayName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Approval Date&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Approval Date&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;DateTime&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2017/03/10&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;DisplayName&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Kebin Budget&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Kebin Budget&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Currency&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;Data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3000&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;. &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PSScriptRoot&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;estInitialize.ps1&quot;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# モジュールのテストコード&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$VerbosePreference&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'SilentlyContinue'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$Tests&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Get-ChildItem&lt;/span&gt; -Path &lt;span class=&quot;nv&quot;&gt;$PSScriptRoot&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\*&lt;/span&gt;.ps1 -Exclude &lt;span class=&quot;s2&quot;&gt;&quot;*FullTest*&quot;&lt;/span&gt; -ErrorAction SilentlyContinue&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$test&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$Tests&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        . &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$test&lt;/span&gt;.FullName&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;Write-Error&lt;/span&gt; -Message &lt;span class=&quot;s2&quot;&gt;&quot;Failed to import function &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$import&lt;/span&gt;.fullname&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;: &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="powershell" /><summary type="html">Mockの使い方と使用例
+
+  Out-Hostをテストしようとすると、return valueは空のためテストが難しい
+  同じくGet-Dateのように変動的な結果のもののテストも難しい
+  そんな時にMockを使用する</summary></entry><entry><title type="html">PowershellでClosureを使ってみた</title><link href="https://sunoko.github.io/whoarewe/powershell-closure/" rel="alternate" type="text/html" title="PowershellでClosureを使ってみた" /><published>2017-05-18T06:26:38+09:00</published><updated>2017-05-18T06:26:38+09:00</updated><id>https://sunoko.github.io/whoarewe/powershell-closure</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/powershell-closure/">&lt;h2 id=&quot;powershellでクロージャー使用例&quot;&gt;Powershellでクロージャー使用例&lt;/h2&gt;
+
+&lt;p&gt;非常に長いパラメータセットになりがちなので、データとコードをオブジェクトにラップする　
+メッセージ作成スクリプトの再利用単純化&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;Get-MessageObject
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;param&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$MsgType&lt;/span&gt;,
+      &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Message&lt;/span&gt;,
+      &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$CurrentDay&lt;/span&gt;,
+      &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$CurrentTime&lt;/span&gt;,
+      &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$DayOfWeek&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;nv&quot;&gt;$Properties&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; @&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;s1&quot;&gt;'MessageType'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$MsgType&lt;/span&gt;
+                    &lt;span class=&quot;s1&quot;&gt;'Message'&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$Message&lt;/span&gt;
+                    &lt;span class=&quot;s1&quot;&gt;'CurrentDay'&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$CurrentDay&lt;/span&gt;
+                    &lt;span class=&quot;s1&quot;&gt;'CurrentTime'&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$CurrentTime&lt;/span&gt;
+                    &lt;span class=&quot;s1&quot;&gt;'DayOfWeek'&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$DayOfWeek&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;nb&quot;&gt;New-Object&lt;/span&gt; -TypeName psobject -Property &lt;span class=&quot;nv&quot;&gt;$Properties&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;New-MessageGenerator
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;param&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$MsgType&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;nv&quot;&gt;$Day&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.ToLongDateString&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;   
+   &lt;span class=&quot;nv&quot;&gt;$Time&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.ToLongTimeString&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+   &lt;span class=&quot;nv&quot;&gt;$DayOfWeek&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Get-Date&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;.DayOfWeek
+   &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;param&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$Message&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+      Get-MessageObject -MsgType &lt;span class=&quot;nv&quot;&gt;$MsgType&lt;/span&gt; -Message &lt;span class=&quot;nv&quot;&gt;$Message&lt;/span&gt; -CurrentDay &lt;span class=&quot;nv&quot;&gt;$Day&lt;/span&gt; -CurrentTime &lt;span class=&quot;nv&quot;&gt;$Time&lt;/span&gt; -DayOfWeek &lt;span class=&quot;nv&quot;&gt;$DayOfWeek&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;.GetNewClosure&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$function&lt;/span&gt;:global:getInfoMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; New-MessageGenerator -MsgType &lt;span class=&quot;s1&quot;&gt;'Information'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$function&lt;/span&gt;:global:getWarnMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; New-MessageGenerator -MsgType &lt;span class=&quot;s1&quot;&gt;'Warning'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$function&lt;/span&gt;:global:getErrorMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; New-MessageGenerator -MsgType &lt;span class=&quot;s1&quot;&gt;'Error'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$function&lt;/span&gt;:global:getExceptionMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; New-MessageGenerator -MsgType &lt;span class=&quot;s1&quot;&gt;'Exception'&lt;/span&gt;
+
+getInfoMsg -Message &lt;span class=&quot;s1&quot;&gt;'This is a Information.'&lt;/span&gt;
+getWarnMsg -Message &lt;span class=&quot;s1&quot;&gt;'This is a Warning.'&lt;/span&gt;
+getErrorMsg -Message &lt;span class=&quot;s1&quot;&gt;'This is a Error.'&lt;/span&gt;
+getExceptionMsg -Message &lt;span class=&quot;s1&quot;&gt;'This is a Exception.'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="powershell" /><summary type="html">Powershellでクロージャー使用例</summary></entry><entry><title type="html">Powershellで関数とクラスのreturnの違い</title><link href="https://sunoko.github.io/whoarewe/powershell-return/" rel="alternate" type="text/html" title="Powershellで関数とクラスのreturnの違い" /><published>2017-05-18T06:18:24+09:00</published><updated>2017-05-18T06:18:24+09:00</updated><id>https://sunoko.github.io/whoarewe/powershell-return</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/powershell-return/">&lt;h2 id=&quot;関数のreturn&quot;&gt;関数の&lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;現在のスコープを抜ける&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;はあってもなくてもいい&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;以外の他のオブジェクトも返す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;Test-Return
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;s1&quot;&gt;'Hello'&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;12
+	&lt;span class=&quot;s1&quot;&gt;'Good'&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+Test-Return
+&lt;span class=&quot;c1&quot;&gt;# Hello&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 12&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;クラスのreturn&quot;&gt;クラスの&lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;現在のスコープを抜ける&lt;/li&gt;
+  &lt;li&gt;returnは必須(ない場合errorになる)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt;で指定されたものだけ返す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class &lt;/span&gt;ReturnTester
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;int32]TestReturn&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s1&quot;&gt;'Hello'&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;12
+        &lt;span class=&quot;s1&quot;&gt;'Good'&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;New-Object&lt;/span&gt; -TypeName ReturnTester
+&lt;span class=&quot;nv&quot;&gt;$return&lt;/span&gt;.TestReturn&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 12&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="powershell" /><summary type="html">関数のreturn
+
+  現在のスコープを抜ける
+  returnはあってもなくてもいい
+  return以外の他のオブジェクトも返す</summary></entry><entry><title type="html">geeksjob</title><link href="https://sunoko.github.io/whoarewe/geeksjob/" rel="alternate" type="text/html" title="geeksjob" /><published>2017-05-18T06:12:07+09:00</published><updated>2017-05-18T06:12:07+09:00</updated><id>https://sunoko.github.io/whoarewe/geeksjob</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/geeksjob/"></content><category term="働き方" /><summary type="html"></summary></entry><entry><title type="html">levatech</title><link href="https://sunoko.github.io/whoarewe/levatech/" rel="alternate" type="text/html" title="levatech" /><published>2017-05-18T06:11:53+09:00</published><updated>2017-05-18T06:11:53+09:00</updated><id>https://sunoko.github.io/whoarewe/levatech</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/levatech/"></content><category term="働き方" /><summary type="html"></summary></entry><entry><title type="html">ritsuan</title><link href="https://sunoko.github.io/whoarewe/ritsuan/" rel="alternate" type="text/html" title="ritsuan" /><published>2017-05-18T06:11:33+09:00</published><updated>2017-05-18T06:11:33+09:00</updated><id>https://sunoko.github.io/whoarewe/ritsuan</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/ritsuan/"></content><category term="働き方" /><summary type="html"></summary></entry><entry><title type="html">Docker上でRails開発環境を構築する</title><link href="https://sunoko.github.io/whoarewe/docker-rails/" rel="alternate" type="text/html" title="Docker上でRails開発環境を構築する" /><published>2017-05-17T03:48:33+09:00</published><updated>2017-05-17T03:48:33+09:00</updated><id>https://sunoko.github.io/whoarewe/docker-rails</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/docker-rails/">&lt;h2 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;ベースイメージはruby:2.4を使用します。&lt;/li&gt;
+  &lt;li&gt;ベースイメージの更新を行います。&lt;/li&gt;
+  &lt;li&gt;ENTRYKITを使用します。ENTRYKITとは、&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FROM ruby:2.4
+RUN apt-get update -qq &amp;amp;&amp;amp; \
+    apt-get install -y build-essential libpq-dev nodejs
+RUN mkdir /app
+WORKDIR /app
+ADD Gemfile /app/Gemfile
+ADD Gemfile.lock /app/Gemfile.lock
+ADD . /app
+
+RUN bundle config build.nokogiri --use-system-libraries
+EXPOSE 5000
+
+ENV ENTRYKIT_VERSION 0.4.0
+RUN wget https://github.com/progrium/entrykit/releases/download/v${ENTRYKIT_VERSION}/entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  &amp;amp;&amp;amp; tar -xvzf entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  &amp;amp;&amp;amp; rm entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  &amp;amp;&amp;amp; mv entrykit /bin/entrykit \
+  &amp;amp;&amp;amp; chmod +x /bin/entrykit \
+  &amp;amp;&amp;amp; entrykit --symlink
+ENTRYPOINT [ \
+  &quot;prehook&quot;, &quot;ruby -v&quot;, &quot;--&quot;, \
+  &quot;prehook&quot;, &quot;bundle install -j3 --quiet&quot;, &quot;--&quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;docker-composeyml&quot;&gt;docker-compose.yml&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;app, spring, db, dataコンテナー4つを作成します。&lt;/li&gt;
+  &lt;li&gt;appはrailsが実行されるコンテナーです。&lt;/li&gt;
+  &lt;li&gt;springはなくてもいいです。rails開発を高速化したい場合は使用しましょう。&lt;/li&gt;
+  &lt;li&gt;dbはpostgresが実行されるコンテナーです。appコンテナーから参照されます。&lt;/li&gt;
+  &lt;li&gt;dataはデータを格納するコンテナーです。app, dbコンテナーから参照されます。app, dbコンテナーにデータを保存する場合は不要です。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;db:/var/lib/postgresql/data&lt;/code&gt;はpostgresのデータを格納します。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle:/usr/local/bundle&lt;/code&gt;は&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;でインストールされるデータを格納します。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;2'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;&amp;amp;app_base&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;s&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;.&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;rails&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;-p&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3000&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;-b&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'0.0.0.0'&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;DATABASE_HOST=db&quot;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;DATABASE_PORT=5432&quot;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;DATABASE_USER=postgres&quot;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;DATABASE_PASSWORD=mysecretpassword1234&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.:/app&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;volumes_from&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;data&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3000:3000&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;depends_on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;db&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;tty&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;stdin_open&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;true&lt;/span&gt;
+
+  &lt;span class=&quot;s&quot;&gt;spring&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;*app_base&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;spring&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;server&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;tty&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;stdin_open&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;false&lt;/span&gt;
+
+  &lt;span class=&quot;s&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;postgres:9.5&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;POSTGRES_USER=postgres&quot;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;POSTGRES_PASSWORD=mysecretpassword1234&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;volumes_from&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;data&lt;/span&gt;
+
+  &lt;span class=&quot;s&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;busybox&quot;&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;db:/var/lib/postgresql/data&quot;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;bundle:/usr/local/bundle&quot;&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;local&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;local&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;gemfile&quot;&gt;Gemfile&lt;/h2&gt;
+&lt;p&gt;中身はこれだけ書いておきましょう。&lt;/p&gt;
+
+&lt;div class=&quot;language-rb highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'https://rubygems.org'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'rails'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'~&amp;gt; 5.0.1'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;gemfilelock&quot;&gt;Gemfile.lock&lt;/h2&gt;
+&lt;p&gt;中身は何も書かなくていいです。&lt;/p&gt;
+
+&lt;h2 id=&quot;使い方&quot;&gt;使い方&lt;/h2&gt;
+&lt;p&gt;Dockerfile, docker-compose.yml, Gemfile, Gemfile.lockを同じ階層に準備して、その階層に移動したら下記実行しましょう。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 1. Railsプロジェクト作成, イメージ作成&lt;/span&gt;
+docker-compose run --rm app rails new . --force --database&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;postgresql --skip-bundle
+
+&lt;span class=&quot;c&quot;&gt;# 2. Gemfile.lock更新&lt;/span&gt;
+docker-compose run --rm app bundle install
+
+&lt;span class=&quot;c&quot;&gt;# 3. Gemfileの更新結果をイメージに反映&lt;/span&gt;
+docker-compose build
+
+&lt;span class=&quot;c&quot;&gt;# DB設定&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 4. config/docker-compose.yml更新&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 5. DB作成&lt;/span&gt;
+docker-compose run --rm app rails db:create
+
+&lt;span class=&quot;c&quot;&gt;# 6. 起動&lt;/span&gt;
+docker-compose up
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;configdatabaseyml&quot;&gt;config/database.yml&lt;/h2&gt;
+&lt;p&gt;DB設定の時にこちらをコピーします。&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;&amp;amp;default&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;adapter&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;postgresql&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;unicode&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;pool&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;%= ENV.fetch(&quot;RAILS_MAX_THREADS&quot;) { 5 } %&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;%= ENV.fetch('DATABASE_USER') { 'root' } %&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;%= ENV.fetch('DATABASE_PASSWORD') { 'password' } %&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;%= ENV.fetch('DATABASE_HOST') { 'localhost' } %&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;%= ENV.fetch('DATABASE_PORT') { 5432 } %&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;development&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;*default&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;app_development&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;*default&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;app_test&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;production&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;*default&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;app_production&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="docker" /><category term="rails" /><summary type="html">Dockerfile
+
+  ベースイメージはruby:2.4を使用します。
+  ベースイメージの更新を行います。
+  ENTRYKITを使用します。ENTRYKITとは、</summary></entry><entry><title type="html">VagrantでRails on Docker開発環境を構築する</title><link href="https://sunoko.github.io/whoarewe/vagrant/" rel="alternate" type="text/html" title="VagrantでRails on Docker開発環境を構築する" /><published>2017-05-17T03:44:12+09:00</published><updated>2017-05-17T03:44:12+09:00</updated><id>https://sunoko.github.io/whoarewe/vagrant</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/vagrant/">&lt;h2 id=&quot;vagrantfile&quot;&gt;Vagrantfile&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;ベースイメージにはubuntu-16.04を使用します。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;config.vm.provision &quot;docker&quot;&lt;/code&gt;、&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;config.vm.provision :docker_compose&lt;/code&gt;&lt;br /&gt;
+これでDockerとdocker-composeをインストールしてもらいます。&lt;/li&gt;
+  &lt;li&gt;docker上でrailsアプリを起動した際(rails s)には、&lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:5000&lt;/code&gt;にアクセスするとブラウザからアクセスできます。&lt;/li&gt;
+  &lt;li&gt;ポートは&lt;code class=&quot;highlighter-rouge&quot;&gt;config.vm.network &quot;forwarded_port&quot;, guest: 3000, host: 5000&lt;/code&gt;で自由に変更できます。&lt;/li&gt;
+  &lt;li&gt;localのエディタでコードを編集した場合、変更が反映されません。ので、&lt;code class=&quot;highlighter-rouge&quot;&gt;config.vm.synced_folder&lt;/code&gt;こちらでrsync使いましょう。&lt;/li&gt;
+  &lt;li&gt;メモリーなどのVMのハード面は&lt;code class=&quot;highlighter-rouge&quot;&gt;vb.memory = &quot;4096&quot;&lt;/code&gt;このように調整しましょう。&lt;/li&gt;
+  &lt;li&gt;起動時(vagrant up)にシェルスクリプトを走らせて、必要なものをインストール自動化しましょう。このように&lt;code class=&quot;highlighter-rouge&quot;&gt;config.vm.provision :shell, :path =&amp;gt; &quot;setup.sh&quot;, privileged: true&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-rb highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# -*- mode: ruby -*-&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# vi: set ft=ruby :&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Vagrant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;configure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;box&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bento/ubuntu-16.04&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provision&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;docker&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provision&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:docker_compose&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;network&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;forwarded_port&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;guest: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;host: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9000&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;network&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;forwarded_port&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;guest: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;443&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;host: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;443&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;network&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;forwarded_port&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;guest: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;host: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;network&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;private_network&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;ip: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;192.168.33.10&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;synced_folder&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;share/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/vagrant/share&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;type: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;rsync&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;rsync__args: &lt;/span&gt;&lt;span class=&quot;sx&quot;&gt;%w(--verbose --archive --delete -z --copy-links --times)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;rsync__chown: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provider&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;virtualbox&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;vb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;memory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;4096&quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provision&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;setup.sh&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;privileged: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provision&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ruby.sh&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;privileged: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;provision&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;db_web_node.sh&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;privileged: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;  
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;setupsh&quot;&gt;setup.sh&lt;/h2&gt;
+&lt;p&gt;Vagrantfileと同じ階層に作成しましょう。&lt;br /&gt;
+このシェルスクリプトではOSの更新とrbenvのインストールを行います。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/home/vagrant'&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# general&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;######################&lt;/span&gt;
+apt-get -y update
+&lt;span class=&quot;c&quot;&gt;# GCC4.9&lt;/span&gt;
+add-apt-repository -y ppa:ubuntu-toolchain-r/test
+apt-get -y update
+&lt;span class=&quot;c&quot;&gt;# Kernel&lt;/span&gt;
+apt-get -y install linux-image-extra-&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;uname -r&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; linux-image-extra-virtual
+
+&lt;span class=&quot;c&quot;&gt;######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# rbenv&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# rbenv&lt;/span&gt;
+git clone https://github.com/rbenv/rbenv.git &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/.rbenv
+&lt;span class=&quot;c&quot;&gt;# .bashrcに追記&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;export PATH=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.rbenv/bin:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &amp;gt;&amp;gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/.bash_profile
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'eval &quot;$(rbenv init -)&quot;'&lt;/span&gt; &amp;gt;&amp;gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/.bash_profile
+&lt;span class=&quot;c&quot;&gt;# ruby-build&lt;/span&gt;
+git clone https://github.com/rbenv/ruby-build.git &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.rbenv/plugins/ruby-build&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;rubysh&quot;&gt;ruby.sh&lt;/h2&gt;
+&lt;p&gt;Vagrantfileと同じ階層に作成しましょう。&lt;br /&gt;
+このシェルスクリプトではrubyのインストールを行います。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/home/vagrant'&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ruby&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#######################&lt;/span&gt;
+sudo ~/.rbenv/bin/rbenv install 2.4.0
+sudo ~/.rbenv/bin/rbenv global 2.4.0
+sudo ~/.rbenv/bin/rbenv rehash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;db_web_nodesh&quot;&gt;db_web_node.sh&lt;/h2&gt;
+&lt;p&gt;Vagrantfileと同じ階層に作成しましょう。&lt;br /&gt;
+このシェルスクリプトではrails, postgres, nginx, nodejsをインストールします。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'/home/vagrant'&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# rails&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#######################&lt;/span&gt;
+sudo apt-get -y install ruby-dev zlib1g-dev gcc make
+gem install bundler
+gem install pkg-config -v &lt;span class=&quot;s2&quot;&gt;&quot;~&amp;gt; 1.1.7&quot;&lt;/span&gt;
+sudo apt-get -y install libxml2-dev
+sudo apt-get -y install libxslt-dev
+gem install nokogiri -- --use-system-libraries
+gem install rails --no-ri --no-rdoc 
+
+&lt;span class=&quot;c&quot;&gt;# #######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# # postgres&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# #######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# # postgres sqlite3 install&lt;/span&gt;
+apt-get -y install libpq-dev libsqlite3-dev
+
+&lt;span class=&quot;c&quot;&gt;# #######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# # nginx&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# #######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# # nginx install&lt;/span&gt;
+apt-get -y install nginx
+
+&lt;span class=&quot;c&quot;&gt;# #######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# # nodejs&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# #######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# # nodejs npm install&lt;/span&gt;
+apt-get -y install nodejs npm
+npm cache clean
+npm install n -g
+n stable
+ln -sf /usr/local/bin/node /usr/bin/node
+apt-get -y purge nodejs npm
+
+
+&lt;span class=&quot;c&quot;&gt;#######################&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# version&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#######################&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'node -v'&lt;/span&gt; &amp;gt;&amp;gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.bash_profile&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'ruby -v'&lt;/span&gt; &amp;gt;&amp;gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.bash_profile&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'rails -v'&lt;/span&gt; &amp;gt;&amp;gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.bash_profile&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'docker -v'&lt;/span&gt; &amp;gt;&amp;gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.bash_profile&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'docker-compose -v'&lt;/span&gt; &amp;gt;&amp;gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/.bash_profile&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;使い方&quot;&gt;使い方&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Vagrant, VirtualBoxをインストール&lt;/li&gt;
+  &lt;li&gt;Vagrantfile, setup.sh, ruby.sh, db_web_node.shを同じ階層に作成&lt;/li&gt;
+  &lt;li&gt;上記ファイルがある階層に移動して&lt;code class=&quot;highlighter-rouge&quot;&gt;vagrant up&lt;/code&gt;を実行する&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vagrant ssh&lt;/code&gt;やsshが使えるターミナルソフトでアクセスする&lt;/li&gt;
+  &lt;li&gt;以上&lt;/li&gt;
+&lt;/ul&gt;</content><category term="vagrant" /><category term="docker" /><category term="rails" /><summary type="html">Vagrantfile
+
+  ベースイメージにはubuntu-16.04を使用します。
+  config.vm.provision &quot;docker&quot;、
+config.vm.provision :docker_compose
+これでDockerとdocker-composeをインストールしてもらいます。
+  docker上でrailsアプリを起動した際(rails s)には、http://localhost:5000にアクセスするとブラウザからアクセスできます。
+  ポートはconfig.vm.network &quot;forwarded_port&quot;, guest: 3000, host: 5000で自由に変更できます。
+  localのエディタでコードを編集した場合、変更が反映されません。ので、config.vm.synced_folderこちらでrsync使いましょう。
+  メモリーなどのVMのハード面はvb.memory = &quot;4096&quot;このように調整しましょう。
+  起動時(vagrant up)にシェルスクリプトを走らせて、必要なものをインストール自動化しましょう。このようにconfig.vm.provision :shell, :path =&amp;gt; &quot;setup.sh&quot;, privileged: true</summary></entry><entry><title type="html">エンジニアの働き方は正社員、派遣、フリーランスって色々あるけどどれがコスパいいの？</title><link href="https://sunoko.github.io/whoarewe/free-rancer/" rel="alternate" type="text/html" title="エンジニアの働き方は正社員、派遣、フリーランスって色々あるけどどれがコスパいいの？" /><published>2017-05-09T06:43:47+09:00</published><updated>2017-05-09T06:43:47+09:00</updated><id>https://sunoko.github.io/whoarewe/free-rancer</id><content type="html" xml:base="https://sunoko.github.io/whoarewe/free-rancer/">&lt;blockquote&gt;
+  &lt;h2 id=&quot;個人的見解&quot;&gt;個人的見解&lt;/h2&gt;
 &lt;/blockquote&gt;
 
-&lt;h2 id=&quot;tables&quot;&gt;Tables&lt;/h2&gt;
+&lt;p&gt;未経験者 ⇨ 正社員&lt;br /&gt;
+何も極めていない経験者 ⇨ 正社員、派遣&lt;br /&gt;
+自他共に認める経験者 ⇨ フリーランス&lt;/p&gt;
 
-&lt;table rules=&quot;groups&quot;&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Header1&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;Header2&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;Header3&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;cell1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;cell2&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;cell3&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;cell4&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;cell5&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;cell6&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;cell1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;cell2&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;cell3&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;cell4&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;cell5&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;cell6&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-  &lt;tfoot&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Foot1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;Foot2&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;Foot3&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tfoot&gt;
-&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;未経験&lt;/strong&gt;で正社員になれるのかという問題はありますが、コスパのみで考えましたのでご了承ください。正社員で雇った以上は未経験者であろうが、なんとか案件に突っ込もうとします。そうしないと何もしない人に対して給料払わなくてはならないので、勝手に頑張ってくれます。&lt;/p&gt;
 
-&lt;h2 id=&quot;code-snippets&quot;&gt;Code Snippets&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;逆にいう&lt;/strong&gt;と希望は通りませんwその会社が持ってる案件と、その案件がたまたま人員を欲しているということと、欲している人員のレベルを満たしているという確率を通り抜ける必要があるので運のみですね。&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nf&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;-240px&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;100%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;何も極めて&lt;/strong&gt;いない経験者は、オールラウンダーやらフルスタックエンジニアやらいい言い方はできるかもしれませんが、給料上がりにくいような気がします。&lt;br /&gt;
+なぜなら、何でもできるとは言え一人のキャパは限られているので実際案件の一部分しかこなせません。つまり、その一部分に必要な技術しかない人でもできちゃいます。結果、その一部分に必要な技術の人と評価は一緒になるんじゃないかと思います。&lt;/p&gt;
 
-&lt;h2 id=&quot;buttons&quot;&gt;Buttons&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;一方で&lt;/strong&gt;、ある技術にかなり精通した人の場合はその人しかできない仕事になるので給料が上がりやすいのではないでしょうか。そんな人はフリーランスが最善かと。個人的に思います。&lt;/p&gt;
 
-&lt;p&gt;Make any link standout more when applying the &lt;code class=&quot;highlighter-rouge&quot;&gt;.btn&lt;/code&gt; class.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;特定派遣について思うこと&quot;&gt;特定派遣について思うこと&lt;/h2&gt;
+&lt;/blockquote&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn btn-success&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Success Button&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;派遣&lt;/strong&gt;エンジニアになって5年経ちます。派遣といっても正社員として採用されて、お客様先に派遣される形態のいわゆる特定派遣というものです。正社員であることのメリットはもし、仕事がなくなっても給料は変わらないことくらいかなぁ。暇すぎる社内待機で精神的にはきついかもw新卒として入った会社なので同期がいたり、社内研修やら資格取得のための費用を負担してくれるのはありがたいと思います。が、5年目ともなるとそのような恩恵はほぼ皆無だとに感じています。&lt;/p&gt;
 
-&lt;div&gt;&lt;a href=&quot;#&quot; class=&quot;btn btn-info&quot;&gt;I konw!&lt;/a&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;正社員&lt;/strong&gt;によるデメリットは現場でどんなに頑張ろうとどんなに評価されようと、給料一緒ということ。まぁ、お客様にいらないと言われて社内待機になったとしても同額の給料が出る安心感があるので、その安心料だと思います。理にかなっていると思います。ただモチベは上がりません。それによっぽどのことがない限りお客様からいらないって言われない気がしますwあとは、社内向けの活動が発生すること。無駄で仕方がありません。新卒のメンターやら業務改善をチームごとに報告し合うことやら独学した方が100倍効率のいい研修。まぁ、そういったことに関わらなければいい話です。ただ、そんな無駄な活動を全社的に辞めて、その分の人件費なり活動費を社員の給料に割り当てた方がいいと思います。無駄なので。&lt;/p&gt;
 
-&lt;h2 id=&quot;kbd&quot;&gt;KBD&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;業務改善&lt;/strong&gt;については優秀な方は自分で勝手にしていますし、そういった面で評価されるに値しないような人の救済策として、社内活動が存在するっていうのが最善の方法のような気がします。エンジニアとしてやっていけないと思うのならそういう社内活動に精を出してなんとか評価されようとする。素晴らしいと思います。&lt;/p&gt;
 
-&lt;p&gt;You can also use &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;kbd&amp;gt;&lt;/code&gt; tag for keyboard buttons.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;まとめる&lt;/strong&gt;と未経験者には最適かと。万が一仕事がなくても給料がもらえる、社内研修に参加できる。エンジニア挫折したら転職もありだと思いますが、社内活動などエンジニア以外の面で輝けるかもしれない！&lt;/p&gt;
 
-&lt;p&gt;Press &lt;kbd&gt;T&lt;/kbd&gt;&lt;kbd&gt;A&lt;/kbd&gt;&lt;kbd&gt;X&lt;/kbd&gt; to move your car. &lt;strong&gt;Midtown Maddness!!&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;登録型派遣について思うこと&quot;&gt;登録型派遣について思うこと&lt;/h2&gt;
+&lt;/blockquote&gt;
 
-&lt;h2 id=&quot;notices&quot;&gt;Notices&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;自分が&lt;/strong&gt;興味のある分野の案件になんとか食い込むこと。登録型派遣の経験はないので推測ですが、最大のメリットは案件を自分で選べることだと思うので活用すべきかと思います。もちろん元からスーパーエンジニアの方は時給を上げることを考えればいいと思います。&lt;/p&gt;
 
-&lt;p class=&quot;notice&quot;&gt;&lt;strong&gt;Watch out!&lt;/strong&gt; You can also add notices by appending &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.notice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt; to a paragraph.&lt;/p&gt;</content><category term="税金" /><summary type="html">Just about everything you'll need to know about tax. Check the content to see the many tax elements within paragraphs.</summary></entry></feed>
+&lt;p&gt;&lt;strong&gt;ただ&lt;/strong&gt;、一般エンジニアの場合は時給の高い案件に就こうにもつけない。時給交渉でもやはり信頼を得るための時間がかかる。だったら割り切ってやりたい分野の経験年数を上げることに特化もありなのではないでしょうか。その経験を引っさげてフリーランスになったら給料がかなり上がると推測しています。あくまで推測です。説得力ゼロです。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;フリーランスについて思うこと&quot;&gt;フリーランスについて思うこと&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;年収ってどのくらい ⇨ 自分次第&lt;br /&gt;
+案件参画できんの ⇨ 自分次第&lt;br /&gt;
+何かお金周りの手続き面倒そう ⇨ やり方次第&lt;/p&gt;
+
+&lt;p&gt;いろいろ調べてみた結果、全部自分次第のようです。&lt;/p&gt;
+
+&lt;div class=&quot;language-rb highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# エージェントの存在意義&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# エージェントの流れ&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# おすすめエージェント&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 調べた結果と感想&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# フリーに対する意見&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="働き方" /><summary type="html">個人的見解</summary></entry></feed>

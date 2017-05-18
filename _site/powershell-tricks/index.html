@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--><!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8"><![endif]--><!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9"><![endif]--><!--[if gt IE 8]><!--><html class="no-js">
+<!--<![endif]--> <head> <meta charset="UTF-8"> <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"> <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> <title>忘れがちで便利なPowershellまとめ – Who are we?</title> <meta name="description" content=""> <meta name="keywords" content="powershell"> <!-- Twitter Cards --> <meta name="twitter:card" content="summary"> <meta name="twitter:image" content="https://sunoko.github.io/whoarewe/assets/img/logo.png"> <meta name="twitter:title" content="忘れがちで便利なPowershellまとめ"> <meta name="twitter:description" content="クロージャークロージャーってなんかカッコいい。コードレビューで、なんでクロージャー使ってんの？の質問に答えられないならオススメしません。理にかなったクロージャーはカッコいい。"> <meta name="twitter:site" content="@username"> <meta name="twitter:creator" content="@username"> <!-- Open Graph --> <meta property="og:locale" content="ja_JP"> <meta property="og:type" content="article"> <meta property="og:title" content="忘れがちで便利なPowershellまとめ"> <meta property="og:description" content="クロージャークロージャーってなんかカッコいい。コードレビューで、なんでクロージャー使ってんの？の質問に答えられないならオススメしません。理にかなったクロージャーはカッコいい。"> <meta property="og:url" content="https://sunoko.github.io/whoarewe/powershell-tricks/"> <meta property="og:site_name" content="Who are we?"> <meta property="og:image" content="https://sunoko.github.io/whoarewe/assets/img/logo.png"> <link rel="canonical" href="https://sunoko.github.io/whoarewe/powershell-tricks/"> <link href="https://sunoko.github.io/whoarewe/feed.xml" type="application/atom+xml" rel="alternate" title="Who are we? Feed"> <!-- Handheld --> <meta name="HandheldFriendly" content="True"> <meta name="MobileOptimized" content="320"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- CSS --> <link rel="stylesheet" href="https://sunoko.github.io/whoarewe/assets/css/main.css"> <!-- JS --> <script src="https://sunoko.github.io/whoarewe/assets/js/modernizr-3.3.1.custom.min.js"></script> <!-- Favicons --> <link rel="shortcut icon" type="image/png" href="https://sunoko.github.io/whoarewe/favicon.png"> <link rel="shortcut icon" href="https://sunoko.github.io/whoarewe/favicon.ico"> <!-- Background Image --> <style type="text/css">body {background-image:url(https://sunoko.github.io/whoarewe/assets/img/back.jpg); background-repeat: no-repeat; background-size: cover; }</style> <!-- Post Feature Image --> <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-98711363-1', 'auto'); ga('send', 'pageview'); </script> </head> <body> <nav id="dl-menu" class="dl-menuwrapper" role="navigation"> <button class="dl-trigger">Open Menu</button> <ul class="dl-menu"> <li><a href="https://sunoko.github.io/whoarewe/">Home</a></li> <li> <a href="#">About</a> <ul class="dl-submenu"> <li> <img src="https://sunoko.github.io/whoarewe/assets/img/logo.png" alt="Who are we? photo" class="author-photo"> <h4>Who are we?</h4> <p>Who are we?</p> </li> <li><a href="https://sunoko.github.io/whoarewe/about/"><span class="btn btn-inverse">Learn More</span></a></li> <li> <a href="http://twitter.com/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a> </li> <li> <a href="http://facebook.com/username" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a> </li> <li> <a href="http://github.com/sunoko" target="_blank" rel="noopener noreferrer"><i class="fa fa-fw fa-github"></i> Github</a> </li> </ul>
+<!-- /.dl-submenu --> </li> <li> <a href="#">Posts</a> <ul class="dl-submenu"> <li><a href="https://sunoko.github.io/whoarewe/posts/">All Posts</a></li> <li><a href="https://sunoko.github.io/whoarewe/tags/">All Tags</a></li> </ul> </li> <li><a href="https://sunoko.github.io/whoarewe/projects/">Projects</a></li> </ul>
+<!-- /.dl-menu --> </nav><!-- /.dl-menuwrapper --> <!-- Header --> <header class="header" role="banner"> <div class="wrapper animated fadeIn"> <div class="content"> <div class="post-title "> <h1>忘れがちで便利なPowershellまとめ</h1> <h4>08 May 2017</h4> <p class="reading-time"> <i class="fa fa-clock-o"></i> Reading time ~2 minutes </p>
+<!-- /.entry-reading-time --> <a class="btn zoombtn" href="https://sunoko.github.io/whoarewe/posts/"> <i class="fa fa-chevron-left"></i> </a> </div> <h2 id="クロージャー">クロージャー</h2> <p>クロージャーってなんかカッコいい。コードレビューで、なんでクロージャー使ってんの？の質問に答えられないならオススメしません。<br> 理にかなったクロージャーはカッコいい。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="k">function </span>Closure <span class="o">{</span>
+  <span class="nv">$n</span> <span class="o">=</span> 1
+  <span class="o">{</span>
+    <span class="nv">$script</span>:n <span class="o">=</span> <span class="nv">$n</span> + 1
+    <span class="nv">$n</span>
+  <span class="o">}</span>.GetNewClosure<span class="o">()</span> 
+<span class="o">}</span>
+
+<span class="nv">$obj1</span> <span class="o">=</span> Closure
+<span class="nv">$obj2</span> <span class="o">=</span> Closure
+&amp; <span class="nv">$obj1</span>
+<span class="c1"># 2</span>
+&amp; <span class="nv">$obj1</span>
+<span class="c1"># 3</span>
+&amp; <span class="nv">$obj2</span>
+<span class="c1"># 2</span>
+&amp; <span class="nv">$obj2</span>
+<span class="c1"># 3</span>
+</code></pre></div> <h2 id="filter">filter</h2> <p><code class="highlighter-rouge">?</code>は<code class="highlighter-rouge">Where-Object</code>コマンドと同じですね。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="c1"># 偶数のみ取り出す</span>
+1..10 | ? <span class="o">{</span> <span class="nv">$_</span> % 2 -eq 0 <span class="o">}</span>
+</code></pre></div> <h2 id="map">map</h2> <p><code class="highlighter-rouge">%</code>は<code class="highlighter-rouge">Foreach-Object</code>コマンドと同じですね。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="c1"># 全てに2をかける</span>
+1..10 | % <span class="o">{</span> <span class="nv">$_</span> <span class="k">*</span> 2 <span class="o">}</span>
+</code></pre></div> <h2 id="portを使ってるプロセス">portを使ってるプロセス</h2> <p><code class="highlighter-rouge">Select-String</code>は正規表現も使用できるので柔軟性が増しますね。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code>netstat -aon | <span class="nb">Select-String</span> <span class="s2">".0.0:4000"</span>
+netstat -aon | <span class="nb">Select-String</span> -Pattern <span class="s2">".0.0:4000$"</span>
+</code></pre></div> <h2 id="との違い">&amp;{}と.{}の違い</h2> <p><code class="highlighter-rouge">&amp;{}</code>はスクリプト内部で処理を留める<br> <code class="highlighter-rouge">.{}</code>は元のスコープに影響する</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="nv">$hoge</span> <span class="o">=</span> <span class="nv">$null</span>
+&amp; <span class="o">{</span><span class="nv">$hoge</span> <span class="o">=</span> 4<span class="o">}</span>
+<span class="c1"># [String]::IsNullOrEmpty($hoge)</span>
+<span class="c1"># True</span>
+
+<span class="nv">$hoge</span> <span class="o">=</span> <span class="nv">$null</span>
+. <span class="o">{</span><span class="nv">$hoge</span> <span class="o">=</span> 4<span class="o">}</span>
+<span class="c1"># [String]::IsNullOrEmpty($hoge)</span>
+<span class="c1"># False</span>
+
+<span class="nv">$hoge</span>
+<span class="c1"># 4</span>
+</code></pre></div> <h2 id="firewall設定確認">Firewall設定確認</h2> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code>Get-NetFirewallRule | <span class="nb">where</span> <span class="o">{</span><span class="nv">$_</span>.DisplayName -eq <span class="s2">"Something"</span><span class="o">}</span>
+</code></pre></div> <h2 id="test-computersecurechannel-コマンドレットの使い方">Test-ComputerSecureChannel コマンドレットの使い方</h2> <p><code class="highlighter-rouge">Test-ComputerSecureChannel</code> コマンドレットは、信頼関係の状態をチェックして、ローカルコンピューターとドメインの間のセキュリティで保護されたチャネルが正しく機能しているかどうかを検証します。<br> 会社でOutlookが更新されないなぁって時に確認するといいかもしれません。<br> コンパネでネットワークアダプターを無効にして、再度有効にすると調子がようくなる場合もありました。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="c1"># ローカルコンピューター上のAdministratorsグループのメンバーで実行する</span>
+<span class="c1"># 確認</span>
+Test-ComputerSecureChannel
+
+<span class="c1"># 修復</span>
+Test-ComputerSecureChannel -credential administrator -repair
+</code></pre></div> <h2 id="gulp的なファイルの変更監視スクリプト">Gulp的なファイルの変更監視スクリプト</h2> <p>下記の場合、<code class="highlighter-rouge">Register-TaskRunner.ps1</code>と同じフォルダーに置いた拡張子が<code class="highlighter-rouge">ps1</code>のファイルを監視する。 また、変更したファイルのユニットテストが同じフォルダにある場合は変更の度に実行される。<br> どこのファイルを監視するかやユニットテストを実行するかは調整できます。<br> また、変更を検知した際に実行されるコマンドも調整可能です。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="k">function </span>Register-TaskRunner <span class="o">{</span>
+<span class="cm">&lt;#
+.SYNOPSIS
+Watch changing file and run any tasks.
+
+.DESCRIPTION
+Powershell task runner
+
+.EXAMPLE
+$parent = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+Register-Watcher -Folder $parent
+
+.NOTES
+https://msdn.microsoft.com/ja-jp/library/system.io.filesystemwatcher(v=vs.110).aspx  
+https://mcpmag.com/articles/2015/09/24/changes-to-a-folder-using-powershell.aspx?m=1
+
+#&gt;</span>
+    <span class="o">[</span><span class="na">CmdletBinding</span><span class="o">()]</span>
+    <span class="k">Param</span>
+    <span class="o">(</span>
+      <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$true</span><span class="o">)]</span>
+      <span class="o">[</span><span class="kt">string</span><span class="o">]</span><span class="nv">$Folder</span>,
+      
+      <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$false</span><span class="o">)]</span>
+      <span class="o">[</span><span class="kt">string</span><span class="o">]</span><span class="nv">$Filter</span> <span class="o">=</span> <span class="s2">"*.ps1"</span>
+    <span class="o">)</span>    
+
+    <span class="nv">$VerbosePreference</span> <span class="o">=</span> <span class="s2">"Continue"</span>
+    <span class="nv">$events</span> <span class="o">=</span> Get-EventSubscriber
+    <span class="k">foreach</span> <span class="o">(</span><span class="nv">$event</span> <span class="k">in</span> <span class="nv">$events</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nv">$event</span>.EventName -eq <span class="s2">"Changed"</span> -and <span class="nv">$Folder</span> -eq <span class="nv">$event</span>.SourceObject.Path<span class="o">)</span> <span class="o">{</span> 
+            <span class="nb">Write-Verbose</span> <span class="s2">"already exist the event."</span>
+            <span class="k">return</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="nv">$Watcher</span> <span class="o">=</span> <span class="nb">New-Object </span>IO.FileSystemWatcher -Property @<span class="o">{</span> 
+        Path <span class="o">=</span> <span class="nv">$Folder</span>
+        <span class="k">Filter</span> <span class="o">=</span> <span class="nv">$Filter</span>
+        IncludeSubdirectories <span class="o">=</span> <span class="nv">$false</span>
+        EnableRaisingEvents <span class="o">=</span> <span class="nv">$true</span>
+    <span class="o">}</span>
+
+    <span class="nv">$changeAction</span> <span class="o">=</span> <span class="o">[</span>scriptblock]::Create<span class="o">(</span><span class="s1">'
+        $path = $Event.SourceEventArgs.FullPath
+        $changedFileName = $Event.SourceEventArgs.Name
+        $changeType = $Event.SourceEventArgs.ChangeType
+        $timeStamp = $Event.TimeGenerated  
+        $testScript = $changedFileName -replace ".ps1", ".Tests.ps1"  
+        $testFullPath = "$($Event.MessageData)\$testScript"
+        Write-Host "The file $changedFileName was $changeType at $timeStamp"
+        if (Test-Path $testFullPath) { 
+            Write-Host "Running $testScript" -BackgroundColor DarkGray       
+            . $testFullPath
+        } else {
+            Write-Host "not exist $testScript" -BackgroundColor DarkGray       
+        }
+    '</span><span class="o">)</span>
+
+    Register-ObjectEvent -InputObject <span class="nv">$Watcher</span> <span class="sb">`</span>
+                         -EventName <span class="s2">"Changed"</span> <span class="sb">`</span>
+                         -Action <span class="nv">$changeAction</span> <span class="sb">`</span>
+                         -MessageData <span class="nv">$Folder</span>
+<span class="o">}</span>
+<span class="nv">$here</span> <span class="o">=</span> <span class="nb">Split-Path</span> -Parent <span class="nv">$MyInvocation</span>.MyCommand.Path
+Register-TaskRunner -Folder <span class="nv">$here</span>
+</code></pre></div> <p>変更監視をやめたい時には<code class="highlighter-rouge">Unregister-TaskRunner</code>で。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="k">function </span>Unregister-TaskRunner <span class="o">{</span>
+    Get-EventSubscriber | Unregister-Event
+<span class="o">}</span>
+</code></pre></div> <h2 id="githubのトレンドを取得する">Githubのトレンドを取得する</h2> <p>このように使用する<br> <code class="highlighter-rouge">Get-GitHubTrend</code><br> <code class="highlighter-rouge">Get-GitHubTrend -target javascript</code><br> <code class="highlighter-rouge">Get-GitHubTrend -target ruby -length 10</code></p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="k">function </span>Get-GitHubTrend <span class="o">{</span>
+    <span class="k">Param</span>
+    <span class="o">(</span>
+       <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$false</span><span class="o">)]</span>
+       <span class="o">[</span><span class="kt">string</span><span class="o">]</span><span class="nv">$target</span> <span class="o">=</span> <span class="s2">"powershell"</span>,
+
+       <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$false</span><span class="o">)]</span>
+       <span class="o">[</span><span class="kt">string</span><span class="o">]</span><span class="nv">$baseUrl</span> <span class="o">=</span> <span class="s2">"https://github.com"</span>,
+
+       <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$false</span><span class="o">)]</span>
+       <span class="o">[</span><span class="kt">string</span><span class="o">]</span><span class="nv">$regex</span> <span class="o">=</span> <span class="s1">'\"(.*)\"'</span>,
+
+       <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$false</span><span class="o">)]</span>
+       <span class="o">[</span><span class="kt">int</span><span class="o">]</span><span class="nv">$length</span> <span class="o">=</span> 5,
+
+       <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$false</span><span class="o">)]</span>
+       <span class="o">[</span><span class="k">switch</span><span class="o">]</span><span class="nv">$week</span>,
+
+       <span class="o">[</span>Parameter<span class="o">(</span><span class="nv">Mandatory</span><span class="o">=</span><span class="nv">$false</span><span class="o">)]</span>
+       <span class="o">[</span><span class="k">switch</span><span class="o">]</span><span class="nv">$month</span>
+    <span class="o">)</span>
+    <span class="k">if</span> <span class="o">(</span><span class="nv">$week</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"</span><span class="nv">$baseUrl</span><span class="s2">/trending/</span><span class="k">$(</span><span class="nv">$target</span><span class="k">)</span><span class="s2">?since=weekly"</span>
+    <span class="o">}</span> <span class="k">elseif</span> <span class="o">(</span><span class="nv">$month</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"</span><span class="nv">$baseUrl</span><span class="s2">/trending/</span><span class="k">$(</span><span class="nv">$target</span><span class="k">)</span><span class="s2">?since=monthly"</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"</span><span class="nv">$baseUrl</span><span class="s2">/trending/</span><span class="nv">$target</span><span class="s2">"</span>
+    <span class="o">}</span>
+    
+    <span class="nv">$geturl</span> <span class="o">=</span> Invoke-WebRequest -Uri <span class="nv">$url</span>
+    <span class="nv">$comment</span> <span class="o">=</span> <span class="nv">$geturl</span>.ParsedHtml.body.getElementsByTagName<span class="o">(</span><span class="s1">'div'</span><span class="o">)</span> | 
+        <span class="nb">Where</span> <span class="o">{</span><span class="nv">$_</span>.getAttributeNode<span class="o">(</span><span class="s1">'class'</span><span class="o">)</span>.Value -eq <span class="s1">'py-1'</span><span class="o">}</span>
+    <span class="nv">$hrefs</span> <span class="o">=</span> <span class="nv">$geturl</span>.ParsedHtml.body.getElementsByTagName<span class="o">(</span><span class="s1">'div'</span><span class="o">)</span> | 
+        <span class="nb">Where</span> <span class="o">{</span><span class="nv">$_</span>.getAttributeNode<span class="o">(</span><span class="s1">'class'</span><span class="o">)</span>.Value -eq <span class="s1">'d-inline-block col-9 mb-1'</span><span class="o">}</span>
+
+
+    <span class="k">foreach</span> <span class="o">(</span><span class="nv">$html</span> <span class="k">in</span> <span class="nv">$hrefs</span>.innerHTML<span class="o">)</span> <span class="o">{</span>
+        <span class="nv">$result</span> <span class="o">=</span> <span class="o">(([</span>regex]::Matches<span class="o">(</span><span class="nv">$html</span>, <span class="nv">$regex</span><span class="o">))</span>.Groups[1].Value<span class="o">)</span>
+        <span class="nv">$href</span> +<span class="o">=</span> @<span class="o">(</span><span class="s2">"</span><span class="nv">$baseUrl$result</span><span class="s2">"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="nv">$i</span> <span class="o">=</span> 0; <span class="nv">$i</span> -lt <span class="nv">$length</span>; <span class="nv">$i</span>++<span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nv">$href</span><span class="o">[</span><span class="nv">$i</span><span class="o">]</span> -eq <span class="nv">$null</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="o">}</span>
+        <span class="nb">Write-Host</span> <span class="nv">$hrefs</span><span class="o">[</span><span class="nv">$i</span><span class="o">]</span>.innerText  -BackgroundColor DarkGreen
+        <span class="nb">Write-Host</span> <span class="nv">$comment</span><span class="o">[</span><span class="nv">$i</span><span class="o">]</span>.innerText
+        <span class="nb">Write-Host</span> <span class="nv">$href</span><span class="o">[</span><span class="nv">$i</span><span class="o">]</span> <span class="sb">`</span>n
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div> <h2 id="hashを配列のように扱う">Hashを配列のように扱う</h2> <p>Hashをループで回したい時に使えるかと。</p> <div class="language-powershell highlighter-rouge"><pre class="highlight"><code><span class="nv">$myHash</span> <span class="o">=</span> @<span class="o">{}</span>
+<span class="nv">$myHash</span><span class="o">[</span><span class="s2">"a"</span><span class="o">]</span> <span class="o">=</span> 1
+<span class="nv">$myHash</span><span class="o">[</span><span class="s2">"b"</span><span class="o">]</span> <span class="o">=</span> 2
+<span class="nv">$myHash</span><span class="o">[</span><span class="s2">"c"</span><span class="o">]</span> <span class="o">=</span> 3
+
+<span class="k">foreach</span><span class="o">(</span><span class="nv">$key</span> <span class="k">in</span> <span class="k">$(</span><span class="nv">$myHash</span>.keys<span class="k">)</span><span class="o">){</span>
+    <span class="nv">$myHash</span><span class="o">[</span><span class="nv">$key</span><span class="o">]</span> <span class="o">=</span> 5
+<span class="o">}</span>
+</code></pre></div> <div class="entry-meta"> <br> <hr> <span class="entry-tags"><a href="https://sunoko.github.io/whoarewe/tags/#powershell" title="Pages tagged powershell" class="tag"><span class="term">powershell</span></a></span> <span class="social-share"> <a href="https://www.facebook.com/sharer/sharer.php?u=https://sunoko.github.io/whoarewe/powershell-tricks/" title="Share on Facebook" class="tag"> <span class="term"><i class="fa fa-facebook-square"></i> Share</span> </a> <a href="https://twitter.com/intent/tweet?text=https://sunoko.github.io/whoarewe/powershell-tricks/" title="Share on Twitter" class="tag"> <span class="term"><i class="fa fa-twitter-square"></i> Tweet</span> </a> <a href="https://plus.google.com/share?url=https://sunoko.github.io/whoarewe/powershell-tricks/" title="Share on Google+" class="tag"> <span class="term"><i class="fa fa-google-plus-square"></i> +1</span> </a> </span> <div style="clear:both"></div> </div> </div> </div> </header> <!-- JS --> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery-1.12.0.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.dlmenu.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.goup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.magnific-popup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.fitvid.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/scripts.js"></script> <!-- MathJax --> <script async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> </body> </html>
