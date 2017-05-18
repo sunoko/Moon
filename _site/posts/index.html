@@ -19,43 +19,4 @@
 <h2 id="空の配列を反復処理する">空の配列を反復処理する</h2> <p><code class="highlighter-rouge">var array</code>は長さが3の空の配列であり、Arrayメソッドで反復処理ができない。 <code class="highlighter-rouge">var array1</code>はundefinedに設定された値を3つ持つ配列。値を持つので反復処理可能。 書き方を変えるならば<code class="highlighter-rouge">Array(undefined, undefined, undefined)</code>これと同じ。</p>  <a href="https://sunoko.github.io/whoarewe/javascript-tricks-1/" class="btn zoombtn">Read More</a> </li> </ul> <ul> <li class="wow fadeInLeft" data-wow-duration="1.5s"> <a class="zoombtn" href="https://sunoko.github.io/whoarewe/bash-tricks/">忘れがちで便利なBashまとめ</a> <p></p>
 <h2 id="テンプレートが書かれたファイルを複数作成する">テンプレートが書かれたファイルを複数作成する</h2> <p>下記サンプルではRubyのユニットテスト（Railsではなく）するためのファイルを複数作成します。 test_1.rbというファイル名のファイルが30個作成されます。ファイルの中身はユニットテストをするために必要な基本的なものが書かれています。 ファイルの中身は別として、ファイルを複数作成したい時には早速使えるかと思います。</p>  <a href="https://sunoko.github.io/whoarewe/bash-tricks/" class="btn zoombtn">Read More</a> </li> </ul> <ul> <li class="wow fadeInLeft" data-wow-duration="1.5s"> <a class="zoombtn" href="https://sunoko.github.io/whoarewe/ruby-tricks/">忘れがちで便利なRubyまとめ</a> <p></p>
 <h2 id="で引数でhashを受け取る">
-<code class="highlighter-rouge">**</code>で引数でHashを受け取る</h2>  <a href="https://sunoko.github.io/whoarewe/ruby-tricks/" class="btn zoombtn">Read More</a> </li> </ul> <ul> <li class="wow fadeInLeft" data-wow-duration="1.5s"> <a class="zoombtn" href="https://sunoko.github.io/whoarewe/About-me/">About me</a> <p></p>
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"プロフィール"</span><span class="p">:{</span><span class="w"> 
-    </span><span class="nt">"名前"</span><span class="p">:</span><span class="s2">"Kazuki Chinone"</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"生年月日"</span><span class="p">:</span><span class="s2">"1990/8/16"</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"住まい"</span><span class="p">:</span><span class="s2">"Tokyo"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"スキル"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"Javascript"</span><span class="p">:</span><span class="s2">"2年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"Ruby"</span><span class="p">:</span><span class="s2">"2年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"Powershell"</span><span class="p">:</span><span class="s2">"4年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"JQuery"</span><span class="p">:</span><span class="s2">"1年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"CSS"</span><span class="p">:</span><span class="s2">"2年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"HTML"</span><span class="p">:</span><span class="s2">"2年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"Microsoft System Center"</span><span class="p">:{</span><span class="w">
-        </span><span class="nt">"SCCM"</span><span class="p">:</span><span class="s2">"2年"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"SCOM"</span><span class="p">:</span><span class="s2">"1年"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"ツール"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"Docker"</span><span class="p">:</span><span class="s2">"1年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"Vagrant"</span><span class="p">:</span><span class="s2">"1年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"Git"</span><span class="p">:</span><span class="s2">"2年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"Jenkins"</span><span class="p">:</span><span class="s2">"1年"</span><span class="w">
-    </span><span class="p">},</span><span class="w">    
-    </span><span class="nt">"特定派遣"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"経験年数"</span><span class="p">:</span><span class="s2">"4年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"ヘルプデスク"</span><span class="p">:</span><span class="s2">"1.5年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"サーバー運用"</span><span class="p">:</span><span class="s2">"1.5年"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"Web開発"</span><span class="p">:</span><span class="s2">"1年"</span><span class="w">
-    </span><span class="p">},</span><span class="w">   
-    </span><span class="nt">"保有資格"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"1"</span><span class="p">:</span><span class="s2">"応用情報技術者試験"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"2"</span><span class="p">:</span><span class="s2">"基本情報技術者試験"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"3"</span><span class="p">:</span><span class="s2">"LPIC Level 1,2,3"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"4"</span><span class="p">:</span><span class="s2">"MCSA Winodws7"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"5"</span><span class="p">:</span><span class="s2">"TOEIC 665点"</span><span class="w">
-    </span><span class="p">}</span><span class="w">     
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>  <a href="https://sunoko.github.io/whoarewe/About-me/" class="btn zoombtn">Read More</a> </li> </ul> <ul> <li class="wow fadeInLeft" data-wow-duration="1.5s"> <a class="zoombtn" href="https://sunoko.github.io/whoarewe/markdown-syntax/">Tax Syntax</a> <p>Just about everything you'll need to know about tax. Check the content to see the many tax elements within paragraphs.</p> <a href="https://sunoko.github.io/whoarewe/markdown-syntax/" class="btn zoombtn">Read More</a> </li> </ul> </div> </div> </div> </header> <!-- JS --> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery-1.12.0.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.dlmenu.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.goup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.magnific-popup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.fitvid.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/scripts.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/wow.min.js"></script> <script type="text/javascript">(new WOW).init();</script> </body> </html>
+<code class="highlighter-rouge">**</code>で引数でHashを受け取る</h2>  <a href="https://sunoko.github.io/whoarewe/ruby-tricks/" class="btn zoombtn">Read More</a> </li> </ul> <ul> <li class="wow fadeInLeft" data-wow-duration="1.5s"> <a class="zoombtn" href="https://sunoko.github.io/whoarewe/markdown-syntax/">Tax Syntax</a> <p>Just about everything you'll need to know about tax. Check the content to see the many tax elements within paragraphs.</p> <a href="https://sunoko.github.io/whoarewe/markdown-syntax/" class="btn zoombtn">Read More</a> </li> </ul> </div> </div> </div> </header> <!-- JS --> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery-1.12.0.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.dlmenu.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.goup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.magnific-popup.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/jquery.fitvid.min.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/scripts.js"></script> <script src="https://sunoko.github.io/whoarewe/assets/js/wow.min.js"></script> <script type="text/javascript">(new WOW).init();</script> </body> </html>

@@ -6,23 +6,43 @@ date: 2016-03-21
 comments: false
 ---
     
-<center><a href="https://www.youtube.com/"><b>Youtube</b></a> is a minimal, one column jekyll theme.</center>
-
-## Features
-* Minimal, you can focus on your content
-* Responsive
-* Disqus integration
-* Syntax highlighting
-* Optional post image
-* Social icons
-* Page for sharing projects
-* Optional background image
-* Simple navigation menu
-* MathJax support
-
-## Preview
-
-{% capture images %}
-https://gist.githubusercontent.com/sunoko/b3a53959cee18a98269e4b9587002644/raw/3a801146294cc05b312b3d00e7fdcdb56e4ae782/Who-are-you--compressor.png
-{% endcapture %}
-{% include gallery images=images caption="Screenshots of Who are you?" cols=2 %}
+```json
+{
+  "プロフィール":{ 
+    "名前":"Kazuki Chinone", 
+    "生年月日":"1990/8/16", 
+    "住まい":"Tokyo",
+    "スキル":{
+      "Javascript":"2年",
+      "Ruby":"2年",
+      "Powershell":"4年",
+      "JQuery":"1年",
+      "CSS":"2年",
+      "HTML":"2年",
+      "Microsoft System Center":{
+        "SCCM":"2年",
+        "SCOM":"1年"
+      }
+    },
+    "ツール":{
+      "Docker":"1年",
+      "Vagrant":"1年",
+      "Git":"2年",
+      "Jenkins":"1年"
+    },    
+    "特定派遣":{
+      "経験年数":"4年",
+      "ヘルプデスク":"1.5年",
+      "サーバー運用":"1.5年",
+      "Web開発":"1年"
+    },   
+    "保有資格":{
+      "1":"応用情報技術者試験",
+      "2":"基本情報技術者試験",
+      "3":"LPIC Level 1,2,3",
+      "4":"MCSA Winodws7",
+      "5":"TOEIC 665点"
+    }     
+  }
+}
+```
