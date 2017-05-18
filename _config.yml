@@ -1,6 +1,7 @@
 # Site
-title:              Who are we?
-bio:                'Who are you?'
+title:              Who are we ?
+sub_1:                'Who are you ?'
+sub_2:                'Who am I ?'
 description:        "Who are we?"
 reading_time:       true
 words_per_minute:   200
